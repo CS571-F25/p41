@@ -26,22 +26,22 @@ const NavBar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-2">
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="/#/features">
+              <a className="nav-link" aria-current="page" href="#/features">
                 Features
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/#/mixer">
+              <a className="nav-link" href="#/mixer">
                 Mixer
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/#/focus">
+              <a className="nav-link" href="#/focus">
                 Focus Mode
               </a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/#/about">
+              <a className="nav-link" href="#/about">
                 About
               </a>
             </li>
