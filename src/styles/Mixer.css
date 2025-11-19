@@ -1,0 +1,48 @@
+.sound-card {
+  min-height: 260px;
+  height: 260px;
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.sound-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55),
+    rgba(0, 0, 0, 0.85)
+  );
+  z-index: 0;
+}
+
+.sound-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* 🌧️ Rain theme */
+.bg-rain {
+  background-image: url("../assets/mixer/thunder.jpeg");
+}
+
+/* 🔥 Fireplace */
+.bg-fireplace {
+  background-image: url("../assets/mixer/fireplace.jpg");
+}
+
+/* ☕ Café */
+.bg-cafe {
+  background-image: url("../assets/mixer/cafe.jpg");
+}
+
+/* 🌌 Night */
+.bg-night {
+  background-image: url("../assets/mixer/night.avif");
+}
