@@ -5,7 +5,7 @@ const NavBar = () => {
     <nav className="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm sticky-top">
       <div className="container-fluid">
         {/* Brand */}
-        <a className="navbar-brand fw-semibold" href="/">
+        <a className="navbar-brand fw-semibold" href="#/">
           StudySense
         </a>
 
