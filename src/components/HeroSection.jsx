@@ -30,13 +30,13 @@ const HeroSection = () => {
             <div className="d-flex flex-wrap gap-3 mb-4">
               <a
                 className="btn btn-primary btn-lg rounded-pill px-4"
-                href="/#/mixer"
+                href="#/mixer"
               >
                 Discover Your Sound
               </a>
               <a
                 className="btn btn-outline-light rounded-pill px-4"
-                href="/#/focus"
+                href="#/focus"
               >
                 Try Focus Mode
               </a>
