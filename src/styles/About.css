@@ -1,0 +1,11 @@
+.about-bg {
+  background: radial-gradient(
+    circle at top left,
+    #3b82f6 0%,
+    #1e293b 40%,
+    #750788 100%
+  );
+  background-size: cover;
+  min-height: 100vh;
+  color: white;
+}
