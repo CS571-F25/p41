@@ -1,0 +1,549 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500&display=swap");
+
+/* ========== Variables ========== */
+.focus-timer {
+  --color-primary: #a855f7;
+  --color-primary-light: #c084fc;
+  --color-accent: #22d3ee;
+  --color-card: rgba(255, 255, 255, 0.03);
+  --color-card-border: rgba(255, 255, 255, 0.06);
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --font-display: "Sora", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+/* ========== Timer Card ========== */
+.focus-timer {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ========== Phase Indicator ========== */
+.phase-indicator {
+  padding: 0.375rem 1rem;
+  border-radius: 100px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.phase-indicator.work {
+  background: rgba(168, 85, 247, 0.2);
+  color: var(--color-primary-light);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.phase-indicator.rest {
+  background: rgba(34, 211, 238, 0.2);
+  color: var(--color-accent);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+}
+
+/* ========== Timer Display ========== */
+.timer-display {
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem 0;
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+}
+
+/* ========== Sessions Counter ========== */
+.sessions-counter {
+  font-size: 0.875rem;
+  color: var(--color-primary-light);
+  margin-bottom: 1rem;
+}
+
+/* ========== Preset Buttons ========== */
+.preset-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-preset {
+  padding: 0.5rem 1.25rem;
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 100px;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-preset:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--color-text);
+}
+
+.btn-preset.active {
+  background: rgba(168, 85, 247, 0.2);
+  border-color: var(--color-primary);
+  color: var(--color-primary-light);
+}
+
+.btn-settings {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+/* ========== Control Buttons ========== */
+.control-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.btn-control {
+  padding: 0.75rem 1.75rem;
+  border-radius: 100px;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-start {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #7c3aed 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+}
+
+.btn-start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(168, 85, 247, 0.5);
+}
+
+.btn-pause {
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4);
+}
+
+.btn-pause:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(245, 158, 11, 0.5);
+}
+
+.btn-reset {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  color: var(--color-text);
+}
+
+.btn-reset:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.infinite-message {
+  color: var(--color-text-muted);
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+/* ========== Modal Overlay ========== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========== Settings Modal ========== */
+.settings-modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #12121a;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 1.5rem 0;
+}
+
+.settings-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: #f8fafc;
+}
+
+.modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 300;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.settings-body {
+  padding: 1.5rem;
+}
+
+/* ========== Mode Selector ========== */
+.mode-selector {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.mode-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mode-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
+}
+
+.mode-btn.active {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: #a855f7;
+  color: #f8fafc;
+}
+
+.mode-icon {
+  font-size: 1.5rem;
+}
+
+.mode-label {
+  font-family: "Sora", sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* ========== Interval Settings ========== */
+.interval-settings {
+  margin-bottom: 2rem;
+}
+
+.settings-subtitle {
+  font-family: "Sora", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+.settings-description {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  text-align: center;
+  margin: 0 0 1.5rem;
+}
+
+.time-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.time-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.column-title {
+  font-family: "Sora", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #f8fafc;
+  text-align: center;
+  margin: 0 0 1rem;
+}
+
+.time-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.time-option {
+  padding: 0.875rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #94a3b8;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.time-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
+}
+
+.time-option.active {
+  background: rgba(168, 85, 247, 0.15);
+  border-color: #a855f7;
+  color: #f8fafc;
+}
+
+.custom-time {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.custom-input {
+  flex: 1;
+  padding: 0.875rem 1rem;
+  background: transparent;
+  border: none;
+  color: #f8fafc;
+  font-family: "Inter", sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.custom-input::-webkit-outer-spin-button,
+.custom-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.custom-suffix {
+  padding: 0 1rem;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+/* ========== Sound Settings ========== */
+.sound-settings {
+  margin-bottom: 1rem;
+}
+
+.sound-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.sound-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sound-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
+}
+
+.sound-option.active {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: #a855f7;
+  color: #f8fafc;
+}
+
+.sound-icon {
+  font-size: 1.25rem;
+}
+
+.sound-label {
+  font-family: "Sora", sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.sound-check {
+  position: absolute;
+  right: 1rem;
+  color: #a855f7;
+  font-weight: 600;
+}
+
+/* ========== Settings Footer ========== */
+.settings-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 0 1.5rem 1.5rem;
+}
+
+.btn-cancel {
+  padding: 0.75rem 1.25rem;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  color: #94a3b8;
+  font-family: "Sora", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #f8fafc;
+}
+
+.btn-apply {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  border: none;
+  border-radius: 100px;
+  color: white;
+  font-family: "Sora", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(168, 85, 247, 0.3);
+}
+
+.btn-apply:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.4);
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 640px) {
+  .timer-display {
+    font-size: 3.5rem;
+  }
+
+  .focus-timer {
+    padding: 2rem 1.5rem;
+  }
+
+  .mode-selector {
+    grid-template-columns: 1fr;
+  }
+
+  .time-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .sound-options {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-footer {
+    flex-direction: column;
+  }
+
+  .btn-cancel,
+  .btn-apply {
+    width: 100%;
+    justify-content: center;
+  }
+}

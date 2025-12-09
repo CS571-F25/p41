@@ -1,18 +1,27 @@
 import React, { useRef, useState, useEffect } from "react";
-import "../styles/Mixer.css";
 
-const SoundCard = ({ icon, title, description, audioSrc, bgClass }) => {
+const SoundCard = ({
+  icon,
+  title,
+  description,
+  audioSrc,
+  bgClass,
+  volume: controlledVolume,
+  onVolumeChange,
+}) => {
   const audioRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(60);
+  const [internalVolume, setInternalVolume] = useState(60);
 
-  // Initialize audio element once
+  // Use controlled or internal volume
+  const volume =
+    controlledVolume !== undefined ? controlledVolume : internalVolume;
+
   useEffect(() => {
     if (!audioRef.current) {
       const audio = new Audio(audioSrc);
       audio.loop = true;
       audio.volume = volume / 100;
-
       audioRef.current = audio;
     }
 
@@ -23,7 +32,13 @@ const SoundCard = ({ icon, title, description, audioSrc, bgClass }) => {
     };
   }, [audioSrc]);
 
-  // Toggle play / pause
+  // Update audio volume when volume prop changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume / 100;
+    }
+  }, [volume]);
+
   const handleToggle = () => {
     if (!audioRef.current) return;
 
@@ -36,10 +51,14 @@ const SoundCard = ({ icon, title, description, audioSrc, bgClass }) => {
     setIsPlaying(!isPlaying);
   };
 
-  // Adjust volume
   const handleVolumeChange = (e) => {
     const newVol = Number(e.target.value);
-    setVolume(newVol);
+
+    if (onVolumeChange) {
+      onVolumeChange(newVol);
+    } else {
+      setInternalVolume(newVol);
+    }
 
     if (audioRef.current) {
       audioRef.current.volume = newVol / 100;
@@ -47,37 +66,68 @@ const SoundCard = ({ icon, title, description, audioSrc, bgClass }) => {
   };
 
   return (
-    <div className={`sound-card ${bgClass} shadow-sm`}>
-      <div className="sound-card-content p-3 d-flex flex-column h-100">
-        {/* Header */}
-        <div className="d-flex align-items-center mb-2">
-          <span className="fs-3 me-2">{icon}</span>
-          <h4 className="fw-semibold mb-0 text-light">{title}</h4>
+    <div className={`sound-card ${bgClass}`}>
+      <div className="sound-card-content">
+        <div className="sound-card-header">
+          <span className="sound-card-icon">{icon}</span>
+          <h2 className="sound-card-title">{title}</h2>
         </div>
 
-        <p className="text-light text-opacity-75 small mb-3">{description}</p>
+        <p className="sound-card-description">{description}</p>
 
-        {/* Controls */}
-        <div className="mt-auto">
-          <label className="form-label small text-uppercase text-light text-opacity-75">
-            Volume
-          </label>
+        <div className="sound-card-controls">
+          <div className="volume-row">
+            <label
+              className="volume-label"
+              htmlFor={`volume-${title.toLowerCase().replace(/\s+/g, "-")}`}
+            >
+              Volume
+            </label>
+            <span className="volume-value">{volume}%</span>
+          </div>
           <input
             type="range"
-            className="form-range"
+            id={`volume-${title.toLowerCase().replace(/\s+/g, "-")}`}
+            className="volume-slider"
             min="0"
             max="100"
             value={volume}
             onChange={handleVolumeChange}
+            aria-label={`${title} volume`}
           />
 
           <button
-            className={`btn btn-sm rounded-pill mt-2 ${
-              isPlaying ? "btn-light text-dark" : "btn-outline-light"
+            className={`play-button ${
+              isPlaying ? "play-button-playing" : "play-button-idle"
             }`}
             onClick={handleToggle}
           >
-            {isPlaying ? "⏸ Pause" : "▶ Play"} {title}
+            {isPlaying ? (
+              <>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <rect x="6" y="4" width="4" height="16" rx="1" />
+                  <rect x="14" y="4" width="4" height="16" rx="1" />
+                </svg>
+                Pause
+              </>
+            ) : (
+              <>
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M8 5.14v14.72a1 1 0 001.5.86l11-7.36a1 1 0 000-1.72l-11-7.36a1 1 0 00-1.5.86z" />
+                </svg>
+                Play
+              </>
+            )}
           </button>
         </div>
       </div>

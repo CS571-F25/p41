@@ -1,56 +1,94 @@
 import React from "react";
 import "../styles/About.css";
 
-const AboutMe = () => {
+const About = () => {
   return (
-    <section className="about-bg py-5 text-light">
-      <div className="container py-4">
-        <div className="text-center mb-5">
-          <h1 className="fw-bold">About StudySense</h1>
-          <p className="lead text-secondary mt-2">
+    <section className="about">
+      <div className="about-noise" />
+      <div className="about-glow about-glow-1" />
+      <div className="about-glow about-glow-2" />
+
+      <div className="about-container">
+        <div className="about-header">
+          <span className="about-badge">💡 Our story</span>
+          <h1 className="about-title">
+            About <span className="about-title-accent">StudySense</span>
+          </h1>
+          <p className="about-description">
             StudySense brings together ambient soundscapes, a flexible focus
             timer, and simple controls to help users create the perfect workflow
             environment.
           </p>
         </div>
-
-        <div className="row g-4 align-items-stretch">
-          {/* Vision / Purpose */}
-          <div className="col-md-6">
-            <div className="h-100 p-4 bg-dark bg-opacity-25 rounded-4">
-              <h4 className="fw-semibold mb-3">Why We Built This</h4>
-              <p className="text-light text-opacity-75 mb-0">
-                Our team wanted a single tool that makes it easy to maintain
-                focus. StudySense combines ambience, sound mixing, and a
-                structured focus timer so you can stay in the zone without
-                switching apps or breaking concentration.
-              </p>
+        <div className="about-grid">
+          <div className="about-card">
+            <div className="about-card-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
             </div>
+            <h2 className="about-card-title">Why We Built This</h2>
+            <p className="about-card-text">
+              Our team wanted a single tool that makes it easy to maintain
+              focus. StudySense combines ambience, sound mixing, and a
+              structured focus timer so you can stay in the zone without
+              switching apps or breaking concentration.
+            </p>
           </div>
 
-          {/* Feature Overview */}
-          <div className="col-md-6">
-            <div className="h-100 p-4 bg-dark bg-opacity-25 rounded-4">
-              <h4 className="fw-semibold mb-3">What&apos;s Inside</h4>
-              <ul className="text-light text-opacity-75 mb-0">
-                <li>Customizable ambient sound mixer with multiple layers</li>
-                <li>Pomodoro-inspired Focus Mode with timer controls</li>
-                <li>Curated preset vibes like Rainy Night and Cozy Cabin</li>
-                <li>Responsive UI built on Bootstrap utilities</li>
-                <li>Clean navigation and routing using React Router</li>
-              </ul>
+          <div className="about-card">
+            <div className="about-card-icon">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+              </svg>
+            </div>
+            <h2 className="about-card-title">What's Inside</h2>
+            <ul className="about-card-list">
+              <li>Customizable ambient sound mixer with multiple layers</li>
+              <li>Pomodoro-inspired Focus Mode with timer controls</li>
+              <li>Curated preset vibes like Rainy Night and Cozy Cabin</li>
+              <li>Responsive UI with modern design</li>
+              <li>Clean navigation and routing using React Router</li>
+            </ul>
+          </div>
+        </div>
+        <div className="about-tech">
+          <h3 className="about-tech-title">Built With</h3>
+          <div className="tech-stack">
+            <div className="tech-item">
+              <span className="tech-icon">⚛️</span>
+              <span className="tech-name">React</span>
+            </div>
+            <div className="tech-item">
+              <span className="tech-icon">🛣️</span>
+              <span className="tech-name">React Router</span>
+            </div>
+            <div className="tech-item">
+              <span className="tech-icon">🎨</span>
+              <span className="tech-name">Bootstrap</span>
             </div>
           </div>
         </div>
-
-        <div className="text-center mt-5 text-secondary">
-          <p className="small mb-0">
-            Built for CS 571 using React, React Router, and Bootstrap.
-          </p>
+        <div className="about-footer">
+          <p className="about-footer-text">Built for CS 571</p>
         </div>
       </div>
     </section>
   );
 };
 
-export default AboutMe;
+export default About;

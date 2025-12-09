@@ -1,94 +1,75 @@
 import React from "react";
 import lofiImg from "../assets/6884605.jpg";
+import "../styles/HeroSection.css";
 
 const HeroSection = () => {
   return (
-    <section
-      id="home"
-      style={{
-        minHeight: "calc(100vh - 56px)",
-        background:
-          "radial-gradient(circle at top left, #9b25c2ff 0, #1e293b 40%, #091c71ff 100%)",
-        color: "white",
-      }}
-      className="d-flex flex-md-row flex-column"
-    >
-      <div className="container py-5">
-        <div className="row align-items-center">
-          {/* Left: text + buttons */}
-          <div className="col-lg-6 mb-4 mb-lg-0">
-            <h1 className="display-4 fw-semibold mb-3">
-              Master Your Time
+    <section id="home" className="hero">
+      <div className="hero-noise" />
+      <div className="hero-glow hero-glow-1" />
+      <div className="hero-glow hero-glow-2" />
+
+      <div className="hero-container">
+        <div className="hero-content">
+          <div className="hero-text">
+            <span className="hero-badge">✨ Your focus sanctuary</span>
+
+            <h1 className="hero-title">
+              Master Your Time.
               <br />
-              Find Your Flow
+              <span className="hero-title-accent">Find Your Flow.</span>
             </h1>
-            <p className="lead mb-4 text-light">
+
+            <p className="hero-description">
               Build the perfect study atmosphere with ambient soundscapes,
               gentle visuals, and a Pomodoro-inspired focus mode.
             </p>
 
-            <div className="d-flex flex-wrap gap-3 mb-4">
-              <a
-                className="btn btn-primary btn-lg rounded-pill px-4"
-                href="#/mixer"
-              >
-                Discover Your Sound
+            <div className="hero-buttons">
+              <a className="btn-primary-hero" href="#/mixer">
+                <span>Discover Your Sound</span>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
               </a>
-              <a
-                className="btn btn-outline-light rounded-pill px-4"
-                href="#/focus"
-              >
+              <a className="btn-secondary-hero" href="#/focus">
                 Try Focus Mode
               </a>
             </div>
-
-            {/* PlaceHolder - WIll update this */}
-            <div className="d-flex gap-3 flex-wrap">
-              <div
-                className="bg-dark bg-opacity-25 rounded-4 p-3 text-center"
-                style={{ width: "120px" }}
-              >
-                🌧️
-                <div>Rain</div>
-              </div>
-
-              <div
-                className="bg-dark bg-opacity-25 rounded-4 p-3 text-center"
-                style={{ width: "120px" }}
-              >
-                🔥
-                <div>Fireplace</div>
-              </div>
-
-              <div
-                className="bg-dark bg-opacity-25 rounded-4 p-3 text-center"
-                style={{ width: "120px" }}
-              >
-                ☕<div>Café</div>
-              </div>
-
-              <div
-                className="bg-dark bg-opacity-25 rounded-4 p-3 text-center"
-                style={{ width: "120px" }}
-              >
-                🌌
-                <div>Night</div>
-              </div>
-            </div>
           </div>
 
-          {/* Graphic Placeholder to use for now */}
-          <div className="col-lg-6 d-flex justify-content-center">
-            <img
-              src={lofiImg}
-              alt="StudySense Hero"
-              className="img-fluid rounded-4"
-              style={{
-                maxWidth: "500px",
-                objectFit: "cover",
-                boxShadow: "0 25px 60px rgba(15, 23, 42, 0.5)",
-              }}
-            />
+          <div className="hero-visual">
+            <div className="hero-image-wrapper">
+              <div className="hero-image-glow" />
+              <img src={lofiImg} alt="StudySense Hero" className="hero-image" />
+              <div className="hero-image-overlay" />
+
+              <div className="floating-card floating-card-1">
+                <div className="floating-card-icon">🎧</div>
+                <div className="floating-card-text">
+                  <span className="floating-card-title">Focus Mode</span>
+                  <span className="floating-card-subtitle">
+                    25:00 remaining
+                  </span>
+                </div>
+              </div>
+              <div className="floating-card floating-card-2">
+                <div className="floating-card-icon">📊</div>
+                <div className="floating-card-text">
+                  <span className="floating-card-title">Today</span>
+                  <span className="floating-card-subtitle">
+                    Track your focus
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

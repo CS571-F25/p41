@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500&display=swap");
+
+/* ========== Custom Navbar Styling ========== */
+.custom-navbar {
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.75rem 1rem;
+  transition: all 0.3s ease;
+}
+
+/* ========== Brand ========== */
+.custom-navbar .navbar-brand {
+  font-family: "Sora", sans-serif;
+  font-size: 1.25rem;
+}
+
+.custom-navbar .brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: white;
+}
+
+.custom-navbar .brand-text {
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ========== Nav Links ========== */
+.custom-navbar .nav-link {
+  font-family: "Inter", sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.custom-navbar .nav-link:hover,
+.custom-navbar .nav-link:focus {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.custom-navbar .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #a855f7 0%, #c084fc 100%);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: width 0.2s ease;
+}
+
+.custom-navbar .nav-link:hover::after {
+  width: calc(100% - 2rem);
+}
+
+/* ========== CTA Button ========== */
+.custom-navbar .navbar-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
+  color: white;
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  border-radius: 100px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(168, 85, 247, 0.3);
+}
+
+.custom-navbar .navbar-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
+  color: white;
+}
+
+.custom-navbar .navbar-cta svg {
+  transition: transform 0.2s ease;
+}
+
+.custom-navbar .navbar-cta:hover svg {
+  transform: translateX(3px);
+}
+
+/* ========== Mobile Toggle ========== */
+.custom-navbar .navbar-toggler {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 0.75rem;
+}
+
+.custom-navbar .navbar-toggler:focus {
+  box-shadow: none;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ========== Mobile Menu ========== */
+@media (max-width: 991.98px) {
+  .custom-navbar .navbar-collapse {
+    background: rgba(10, 10, 15, 0.98);
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .custom-navbar .nav-link {
+    padding: 0.75rem 1rem;
+  }
+
+  .custom-navbar .nav-link::after {
+    display: none;
+  }
+
+  .custom-navbar .navbar-cta {
+    margin-top: 0.5rem;
+    justify-content: center;
+    width: 100%;
+  }
+}

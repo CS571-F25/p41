@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import FocusTimer from "../components/FocusTimer";
 import FocusSoundLayer from "../components/FocusSoundLayer";
+import SetVibeModal from "../components/SetVibeModal";
+import InspiringQuote from "../components/InspiringQuote";
+import { useSavedMixes } from "../scripts/savedMixes";
 import "../styles/Focus.css";
 
 const presets = [
@@ -10,6 +13,7 @@ const presets = [
     vibe: "stormy",
     description: "Soft rain with the beauty of night.",
     icons: "🌧️ 🌌",
+    levels: { rain: 70, fireplace: 0, cafe: 0, night: 50 },
   },
   {
     id: "cozy-cabin",
@@ -17,6 +21,7 @@ const presets = [
     vibe: "cozy",
     description: "Fireplace crackle with gentle night ambience.",
     icons: "🔥 🌌",
+    levels: { rain: 0, fireplace: 80, cafe: 0, night: 40 },
   },
   {
     id: "lofi-cafe",
@@ -24,6 +29,7 @@ const presets = [
     vibe: "cafe",
     description: "Warm café chatter with soft background hum.",
     icons: "☕ 🎧",
+    levels: { rain: 0, fireplace: 0, cafe: 75, night: 20 },
   },
   {
     id: "deep-focus-minimal",
@@ -31,232 +37,124 @@ const presets = [
     vibe: "minimal",
     description: "Barely-there ambience for distraction-free work.",
     icons: "🌌",
+    levels: { rain: 0, fireplace: 0, cafe: 0, night: 30 },
   },
-];
-
-const vibes = [
-  { id: "all", label: "All" },
-  { id: "cozy", label: "Cozy" },
-  { id: "stormy", label: "Stormy" },
-  { id: "cafe", label: "Café" },
-  { id: "minimal", label: "Minimal" },
 ];
 
 const Focus = () => {
   const [currentVibe, setCurrentVibe] = useState("None");
-  const [selectedVibe, setSelectedVibe] = useState("all");
-  const [selectedPresetId, setSelectedPresetId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [activePresetId, setActivePresetId] = useState(null);
+  const [activeLevels, setActiveLevels] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [masterVolume, setMasterVolume] = useState(0.8); // 0–1
+  const [masterVolume, setMasterVolume] = useState(0.8);
 
-  const filteredPresets =
-    selectedVibe === "all"
-      ? presets
-      : presets.filter((p) => p.vibe === selectedVibe);
+  const { savedMixes, deleteMix, getLevelsIcons } = useSavedMixes();
 
-  const handleRandomPreset = () => {
-    if (filteredPresets.length === 0) return;
-    const random =
-      filteredPresets[Math.floor(Math.random() * filteredPresets.length)];
-    setSelectedPresetId(random.id);
-  };
-
-  const handleApplyVibe = () => {
-    const chosen = presets.find((p) => p.id === selectedPresetId);
-    if (chosen) {
-      setCurrentVibe(chosen.name);
-      // tells audio which mix to use
-      setActivePresetId(chosen.id);
-      // start playing when user hits Apply
-      setIsPlaying(true);
-    } else {
-      setCurrentVibe("Custom vibe");
-      setActivePresetId(null);
-      setIsPlaying(false);
-    }
+  const handleApplyVibe = (chosen) => {
+    setCurrentVibe(chosen.name);
+    setActiveLevels(chosen.levels);
+    setIsPlaying(true);
   };
 
   return (
-    <section
-      className="focus-bg py-5 text-light"
-      style={{ minHeight: "100vh" }}
-    >
-      <div className="container d-flex flex-column justify-content-center align-items-center">
-        <div className="text-center mb-5">
-          <h1 className="fw-bold">Focus Mode</h1>
-          <p className="lead text-secondary mt-2">
-            Set your session, start your timer, and enter deep focus.
-          </p>
+    <section className="focus">
+      <div className="focus-noise" />
+      <div className="focus-glow focus-glow-1" />
+      <div className="focus-glow focus-glow-2" />
+
+      <div className="focus-container">
+        <div className="focus-header">
+          <span className="focus-badge">⏱️ Deep work mode</span>
+          <h1 className="focus-title">
+            Focus <span className="focus-title-accent">Mode</span>
+          </h1>
+          <InspiringQuote />
         </div>
-
-        {/* Timer card */}
-        <FocusTimer />
-
-        {/* Current vibe + Set the Vibe button */}
-        <div className="text-center mt-4">
-          <p className="text-secondary mb-2">
+        <div className="focus-timer-wrapper">
+          <FocusTimer />
+        </div>
+        <div className="focus-vibe-display">
+          <p className="current-vibe-label">
             Current vibe:{" "}
-            <span className="fw-semibold text-light">{currentVibe}</span>
+            <span className="current-vibe-name">{currentVibe}</span>
           </p>
-          <button
-            type="button"
-            className="btn btn-outline-light rounded-pill px-4"
-            data-bs-toggle="modal"
-            data-bs-target="#vibeModal"
-          >
+          <button className="btn-set-vibe" onClick={() => setIsModalOpen(true)}>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M9 18V5l12-2v13" />
+              <circle cx="6" cy="18" r="3" />
+              <circle cx="18" cy="16" r="3" />
+            </svg>
             Set the Vibe
           </button>
         </div>
+        {activeLevels && (
+          <div className="focus-sound-controls">
+            <button
+              className={`btn-play-pause ${isPlaying ? "playing" : ""}`}
+              onClick={() => setIsPlaying((prev) => !prev)}
+            >
+              {isPlaying ? (
+                <>
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <rect x="6" y="4" width="4" height="16" rx="1" />
+                    <rect x="14" y="4" width="4" height="16" rx="1" />
+                  </svg>
+                  Pause Sounds
+                </>
+              ) : (
+                <>
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M8 5.14v14.72a1 1 0 001.5.86l11-7.36a1 1 0 000-1.72l-11-7.36a1 1 0 00-1.5.86z" />
+                  </svg>
+                  Play Sounds
+                </>
+              )}
+            </button>
 
-        {/* GLOBAL sound controls – only show once a preset is active */}
-        {activePresetId && (
-          <div className="mt-4 p-3 bg-dark bg-opacity-25 rounded-4 w-75">
-            <div className="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-              {/* Play / Pause button */}
-              <button
-                className="btn btn-outline-light rounded-pill px-4"
-                onClick={() => setIsPlaying((prev) => !prev)}
-              >
-                {isPlaying ? "⏸ Pause Sounds" : "▶ Play Sounds"}
-              </button>
-
-              {/* Master volume slider */}
-              <div
-                style={{ minWidth: "220px", width: "100%", maxWidth: "320px" }}
-              >
-                <label className="form-label small text-uppercase text-secondary mb-1">
-                  Master Volume
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={Math.round(masterVolume * 100)}
-                  className="form-range"
-                  onChange={(e) =>
-                    setMasterVolume(Number(e.target.value) / 100)
-                  }
-                />
-              </div>
+            <div className="volume-control">
+              <label className="volume-control-label">Master Volume</label>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={Math.round(masterVolume * 100)}
+                className="volume-control-slider"
+                onChange={(e) => setMasterVolume(Number(e.target.value) / 100)}
+              />
             </div>
           </div>
         )}
       </div>
 
-      {/* Vibe selection modal */}
-      <div
-        className="modal fade"
-        id="vibeModal"
-        tabIndex="-1"
-        aria-labelledby="vibeModalLabel"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-dialog-centered modal-lg">
-          <div className="modal-content bg-dark text-light rounded-4">
-            <div className="modal-header border-0">
-              <h5 className="modal-title fw-semibold" id="vibeModalLabel">
-                Set the Vibe
-              </h5>
-              <button
-                type="button"
-                className="btn-close btn-close-white"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-
-            <div className="modal-body">
-              {/* Vibe Categories : can update this (need to include user mixes) */}
-              <div className="mb-4 d-flex flex-wrap gap-2">
-                {vibes.map((v) => (
-                  <button
-                    key={v.id}
-                    type="button"
-                    className={
-                      "btn btn-sm rounded-pill " +
-                      (selectedVibe === v.id
-                        ? "btn-primary"
-                        : "btn-outline-light")
-                    }
-                    onClick={() => {
-                      setSelectedVibe(v.id);
-                      setSelectedPresetId(null);
-                    }}
-                  >
-                    {v.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Preset cards */}
-              <div className="row g-3">
-                {filteredPresets.map((preset) => (
-                  <div className="col-md-6" key={preset.id}>
-                    <button
-                      type="button"
-                      className={
-                        "w-100 text-start p-3 rounded-4 border-0 " +
-                        (selectedPresetId === preset.id
-                          ? "bg-primary text-light"
-                          : "bg-secondary bg-opacity-25 text-light")
-                      }
-                      onClick={() => setSelectedPresetId(preset.id)}
-                    >
-                      <div className="d-flex justify-content-between align-items-center mb-1">
-                        <h6 className="fw-semibold mb-0">{preset.name}</h6>
-                        <span>{preset.icons}</span>
-                      </div>
-                      <p className="small mb-0 text-light text-opacity-75">
-                        {preset.description}
-                      </p>
-                    </button>
-                  </div>
-                ))}
-
-                {filteredPresets.length === 0 && (
-                  <p className="text-secondary small">
-                    No presets available for this vibe yet.
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="modal-footer border-0 d-flex justify-content-between">
-              <button
-                type="button"
-                className="btn btn-outline-light rounded-pill"
-                onClick={handleRandomPreset}
-              >
-                🎲 Randomize
-              </button>
-
-              <div className="d-flex gap-2">
-                <button
-                  type="button"
-                  className="btn btn-outline-light rounded-pill"
-                  data-bs-dismiss="modal"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary rounded-pill"
-                  data-bs-dismiss="modal"
-                  onClick={handleApplyVibe}
-                >
-                  Apply Vibe
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Audio layer: uses activePresetId + masterVolume + isPlaying */}
+      <SetVibeModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        presets={presets}
+        savedMixes={savedMixes}
+        onApply={handleApplyVibe}
+        onDelete={deleteMix}
+        getLevelsIcons={getLevelsIcons}
+      />
       <FocusSoundLayer
-        activePresetId={activePresetId}
+        levels={activeLevels}
         masterVolume={masterVolume}
         isPlaying={isPlaying}
       />

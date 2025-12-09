@@ -1,11 +1,292 @@
-.about-bg {
-  background: radial-gradient(
-    circle at top left,
-    #3b82f6 0%,
-    #1e293b 40%,
-    #750788 100%
-  );
-  background-size: cover;
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Inter:wght@400;500&display=swap");
+
+/* ========== Variables ========== */
+.about {
+  --color-bg: #0a0a0f;
+  --color-primary: #a855f7;
+  --color-primary-light: #c084fc;
+  --color-accent: #ec4899;
+  --color-text: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --color-card: rgba(255, 255, 255, 0.03);
+  --color-card-border: rgba(255, 255, 255, 0.06);
+  --font-display: "Sora", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+/* ========== Base Section ========== */
+.about {
+  position: relative;
   min-height: 100vh;
-  color: white;
+  background: var(--color-bg);
+  color: var(--color-text);
+  overflow: hidden;
+  font-family: var(--font-body);
+  padding: 6rem 0;
+}
+
+/* ========== Background Effects ========== */
+.about-noise {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.about-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+}
+
+.about-glow-1 {
+  top: 10%;
+  left: -5%;
+  width: 35%;
+  height: 45%;
+  background: radial-gradient(circle, var(--color-primary) 0%, transparent 70%);
+  opacity: 0.25;
+}
+
+.about-glow-2 {
+  bottom: 10%;
+  right: -5%;
+  width: 35%;
+  height: 45%;
+  background: radial-gradient(circle, var(--color-accent) 0%, transparent 70%);
+  opacity: 0.2;
+}
+
+/* ========== Container ========== */
+.about-container {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ========== Header ========== */
+.about-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.about-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 100px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.about-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.about-title-accent {
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-light) 0%,
+    var(--color-accent) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.about-description {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ========== Content Grid ========== */
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.about-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 20px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.about-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-4px);
+}
+
+.about-card-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    rgba(168, 85, 247, 0.2) 0%,
+    rgba(236, 72, 153, 0.1) 100%
+  );
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+  color: var(--color-primary-light);
+}
+
+.about-card-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+  color: var(--color-text);
+}
+
+.about-card-text {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.about-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about-card-list li {
+  position: relative;
+  padding-left: 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.about-card-list li:last-child {
+  margin-bottom: 0;
+}
+
+.about-card-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-accent) 100%
+  );
+  border-radius: 50%;
+}
+
+/* ========== Tech Stack ========== */
+.about-tech {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.about-tech-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem;
+  color: var(--color-text-muted);
+}
+
+.tech-stack {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: var(--color-card);
+  border: 1px solid var(--color-card-border);
+  border-radius: 100px;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.tech-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.tech-icon {
+  font-size: 1.125rem;
+}
+
+.tech-name {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+/* ========== Footer ========== */
+.about-footer {
+  text-align: center;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-card-border);
+}
+
+.about-footer-text {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+  .about {
+    padding: 4rem 0;
+  }
+
+  .about-container {
+    padding: 0 1rem;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-card {
+    padding: 1.5rem;
+  }
+
+  .tech-stack {
+    gap: 0.75rem;
+  }
+
+  .tech-item {
+    padding: 0.625rem 1rem;
+  }
 }

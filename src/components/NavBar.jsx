@@ -1,15 +1,18 @@
 import React from "react";
+import "../styles/NavBar.css";
 
 const NavBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg bg-dark navbar-dark shadow-sm sticky-top">
+    <nav className="navbar navbar-expand-lg navbar-dark sticky-top custom-navbar">
       <div className="container-fluid">
-        {/* Brand */}
-        <a className="navbar-brand fw-semibold" href="#/">
-          StudySense
+        <a
+          className="navbar-brand fw-semibold d-flex align-items-center gap-2"
+          href="#/"
+        >
+          <span className="brand-icon">◈</span>
+          <span className="brand-text">StudySense</span>
         </a>
 
-        {/* Mobile toggle */}
         <button
           className="navbar-toggler"
           type="button"
@@ -22,11 +25,10 @@ const NavBar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        {/* Nav links */}
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <ul className="navbar-nav ms-auto align-items-lg-center gap-lg-1">
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="#/features">
+              <a className="nav-link" href="#/features">
                 Features
               </a>
             </li>
@@ -45,21 +47,21 @@ const NavBar = () => {
                 About
               </a>
             </li>
-
-            {/* Auth actions
-            <li className="nav-item d-none d-lg-block">
-              <a className="nav-link" href="/login">
-                Log In
+            <li className="nav-item ms-lg-2">
+              <a className="navbar-cta" href="#/focus">
+                Start Focusing
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
               </a>
             </li>
-            <li className="nav-item ms-lg-2">
-              <a
-                className="btn btn-primary rounded-pill px-3 py-1"
-                href="/signup"
-              >
-                Sign Up
-              </a>
-            </li> */}
           </ul>
         </div>
       </div>
