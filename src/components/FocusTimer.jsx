@@ -6,17 +6,17 @@ const REST_PRESETS = [5, 10, 15, 20];
 
 const FocusTimer = () => {
   // Timer state
-  const [time, setTime] = useState(25 * 60);
+  const [time, setTime] = useState(50 * 60);
   const [isActive, setIsActive] = useState(false);
   const [isWorkPhase, setIsWorkPhase] = useState(true);
 
   // Settings state
   const [showSettings, setShowSettings] = useState(false);
-  const [timerMode, setTimerMode] = useState("intervals"); // "infinite", "intervals"
-  const [workTime, setWorkTime] = useState(25);
-  const [restTime, setRestTime] = useState(5);
-  const [customWork, setCustomWork] = useState(50);
-  const [customRest, setCustomRest] = useState(10);
+  const [timerMode, setTimerMode] = useState("intervals");
+  const [workTime, setWorkTime] = useState(50);
+  const [restTime, setRestTime] = useState(10);
+  const [workInputValue, setWorkInputValue] = useState("50");
+  const [restInputValue, setRestInputValue] = useState("10");
   const [notificationSound, setNotificationSound] = useState("chime");
   const [sessionsCompleted, setSessionsCompleted] = useState(0);
 
@@ -140,12 +140,7 @@ const FocusTimer = () => {
   }, [workTime]);
 
   const handleApplySettings = () => {
-    const newWorkTime = WORK_PRESETS.includes(workTime) ? workTime : customWork;
-    const newRestTime = REST_PRESETS.includes(restTime) ? restTime : customRest;
-
-    setWorkTime(newWorkTime);
-    setRestTime(newRestTime);
-    setTime(newWorkTime * 60);
+    setTime(workTime * 60);
     setIsWorkPhase(true);
     setIsActive(false);
     clearTimer();
@@ -163,23 +158,65 @@ const FocusTimer = () => {
   };
 
   const handleQuickPreset = (minutes) => {
-    setWorkTime(minutes);
-    setTime(minutes * 60);
-    setIsWorkPhase(true);
+    if (!isActive) {
+      setWorkTime(minutes);
+      setTime(minutes * 60);
+      setIsWorkPhase(true);
+    }
+  };
+
+  const handleWorkTimeChange = (minutes) => {
+    const val = Math.max(1, Math.min(120, minutes));
+    setWorkTime(val);
+    setWorkInputValue(String(val));
+  };
+
+  const handleRestTimeChange = (minutes) => {
+    const val = Math.max(1, Math.min(60, minutes));
+    setRestTime(val);
+    setRestInputValue(String(val));
+  };
+
+  const handleWorkInputChange = (e) => {
+    const val = e.target.value;
+    setWorkInputValue(val);
+    if (val !== "") {
+      const num = Math.max(1, Math.min(120, Number(val)));
+      setWorkTime(num);
+    }
+  };
+
+  const handleRestInputChange = (e) => {
+    const val = e.target.value;
+    setRestInputValue(val);
+    if (val !== "") {
+      const num = Math.max(1, Math.min(60, Number(val)));
+      setRestTime(num);
+    }
+  };
+
+  const handleWorkInputBlur = () => {
+    if (workInputValue === "" || workInputValue === "0") {
+      setWorkTime(50);
+      setWorkInputValue("50");
+    }
+  };
+
+  const handleRestInputBlur = () => {
+    if (restInputValue === "" || restInputValue === "0") {
+      setRestTime(10);
+      setRestInputValue("10");
+    }
+  };
+
+  const handleWheel = (e) => {
+    e.target.blur();
   };
 
   // Cleanup on unmount
   useEffect(() => {
     return () => clearTimer();
   }, []);
-
-  // Update time when workTime changes and timer isn't running
-  useEffect(() => {
-    if (!isActive && timerMode === "intervals") {
-      setTime(workTime * 60);
-      setIsWorkPhase(true);
-    }
-  }, [workTime, isActive, timerMode]);
 
   return (
     <>
@@ -201,14 +238,20 @@ const FocusTimer = () => {
 
         <div className="preset-buttons">
           <button
-            className={`btn-preset ${workTime === 25 ? "active" : ""}`}
+            className={`btn-preset ${
+              workTime === 25 && isWorkPhase ? "active" : ""
+            }`}
             onClick={() => handleQuickPreset(25)}
+            disabled={isActive}
           >
             25 min
           </button>
           <button
-            className={`btn-preset ${workTime === 50 ? "active" : ""}`}
+            className={`btn-preset ${
+              workTime === 50 && isWorkPhase ? "active" : ""
+            }`}
             onClick={() => handleQuickPreset(50)}
+            disabled={isActive}
           >
             50 min
           </button>
@@ -256,7 +299,6 @@ const FocusTimer = () => {
             </div>
 
             <div className="settings-body">
-              {/* Timer Mode Selector */}
               <div className="mode-selector">
                 <button
                   className={`mode-btn ${
@@ -283,8 +325,6 @@ const FocusTimer = () => {
                   <span className="mode-label">Intervals</span>
                 </button>
               </div>
-
-              {/* Interval Settings */}
               {timerMode === "intervals" && (
                 <div className="interval-settings">
                   <h3 className="settings-subtitle">Set Interval</h3>
@@ -293,7 +333,6 @@ const FocusTimer = () => {
                   </p>
 
                   <div className="time-columns">
-                    {/* Work Time */}
                     <div className="time-column">
                       <h4 className="column-title">Work Time</h4>
                       <div className="time-options">
@@ -303,7 +342,7 @@ const FocusTimer = () => {
                             className={`time-option ${
                               workTime === mins ? "active" : ""
                             }`}
-                            onClick={() => setWorkTime(mins)}
+                            onClick={() => handleWorkTimeChange(mins)}
                           >
                             {mins} min
                           </button>
@@ -313,21 +352,19 @@ const FocusTimer = () => {
                             type="number"
                             min="1"
                             max="120"
-                            value={customWork}
-                            onChange={(e) => {
-                              const val = Number(e.target.value);
-                              setCustomWork(val);
-                              setWorkTime(val);
-                            }}
+                            value={workInputValue}
+                            onChange={handleWorkInputChange}
+                            onBlur={handleWorkInputBlur}
+                            onWheel={handleWheel}
                             className="custom-input"
                             aria-label="Custom work time in minutes"
+                            placeholder="Custom"
                           />
                           <span className="custom-suffix">min</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* Rest Time */}
                     <div className="time-column">
                       <h4 className="column-title">Rest Time</h4>
                       <div className="time-options">
@@ -337,7 +374,7 @@ const FocusTimer = () => {
                             className={`time-option ${
                               restTime === mins ? "active" : ""
                             }`}
-                            onClick={() => setRestTime(mins)}
+                            onClick={() => handleRestTimeChange(mins)}
                           >
                             {mins} min
                           </button>
@@ -347,14 +384,13 @@ const FocusTimer = () => {
                             type="number"
                             min="1"
                             max="60"
-                            value={customRest}
-                            onChange={(e) => {
-                              const val = Number(e.target.value);
-                              setCustomRest(val);
-                              setRestTime(val);
-                            }}
+                            value={restInputValue}
+                            onChange={handleRestInputChange}
+                            onBlur={handleRestInputBlur}
+                            onWheel={handleWheel}
                             className="custom-input"
                             aria-label="Custom rest time in minutes"
+                            placeholder="Custom"
                           />
                           <span className="custom-suffix">min</span>
                         </div>
